@@ -6,21 +6,23 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
 public class Category extends BaseEntity {
     private String name;
     @OneToMany(mappedBy = "category")
-    private List<ProductCategory> productCategories;
+    private Set<Product> product;
 
     // Constructors, getters, and setters
 
     protected Category() {
     }
 
-    public Category(String name) {
+    public Category(String name, Set<Product> product) {
         this.name = name;
+        this.product = product;
     }
 
     // Getters and Setters
@@ -32,11 +34,12 @@ public class Category extends BaseEntity {
         this.name = name;
     }
 
-    public List<ProductCategory> getProducts() {
-        return productCategories;
+    public Set<Product> getProduct() {
+        return product;
     }
 
-    public void setProducts(List<ProductCategory> products) {
-        this.productCategories = products;
+    public void setProduct(Set<Product> product) {
+        this.product = product;
     }
+
 }

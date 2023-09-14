@@ -7,16 +7,16 @@ import java.util.List;
 
 public class OrderProductDTO {
     private Long id;
-    private OrderDTO orderDTO;
-    private ProductDTO productDTO;
+    private Long orderId;
+    private Long productId;
 
     public OrderProductDTO() {
     }
 
-    public OrderProductDTO(Long id, OrderDTO orderDTO, ProductDTO productDTO) {
+    public OrderProductDTO(Long id, Long orderId, Long productId) {
         this.id = id;
-        this.orderDTO = orderDTO;
-        this.productDTO = productDTO;
+        this.orderId = orderId;
+        this.productId = productId;
     }
 
     public Long getId() {
@@ -27,10 +27,20 @@ public class OrderProductDTO {
         this.id = id;
     }
 
-    public ProductDTO getProduct(){ return productDTO; }
+    public Long getOrderId() {
+        return orderId;
+    }
 
-    public void setProduct(ProductDTO productDTO) { this.productDTO = productDTO; }
-    public OrderDTO getOrder() { return orderDTO; }
-    public void setOrder(OrderDTO orderDTO) { this.orderDTO = orderDTO; }
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
 
 }

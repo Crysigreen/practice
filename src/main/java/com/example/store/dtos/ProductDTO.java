@@ -2,14 +2,15 @@ package com.example.store.dtos;
 
 import com.example.store.models.Category;
 import com.example.store.models.OrderProduct;
-import com.example.store.models.ProductCategory;
+
 
 import java.util.List;
 
 public class ProductDTO {
     private Long id;
     private String name;
-    private List<Integer> categoryIds;
+    private Double price;
+    private Long categoryId;
 
 
     // Constructors, getters, and setters
@@ -17,10 +18,11 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, List<Integer> categoryIds) {
+    public ProductDTO(Long id, String name,Double price, Long categoryId) {
         this.id = id;
         this.name = name;
-        this.categoryIds = categoryIds;
+        this.price = price;
+        this.categoryId = categoryId;
     }
 
     // Getters and Setters
@@ -41,11 +43,19 @@ public class ProductDTO {
         this.name = name;
     }
 
-    public List<Integer> getCategoryIds() {
-        return categoryIds;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setCategoryIds(List<Integer> categoryIds) {
-        this.categoryIds = categoryIds;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

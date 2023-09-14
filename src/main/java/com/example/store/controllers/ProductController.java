@@ -1,9 +1,10 @@
 package com.example.store.controllers;
 
+import com.example.store.dtos.ClientDTO;
+import com.example.store.dtos.ProductCategoryDTO;
 import com.example.store.dtos.ProductDTO;
 import com.example.store.models.Category;
 import com.example.store.models.Product;
-import com.example.store.models.ProductCategory;
 import com.example.store.repositories.CategoryRepository;
 import com.example.store.repositories.ProductRepository;
 import com.example.store.service.ClientService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -36,23 +38,32 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
-
-
     @GetMapping("/product")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
         List<ProductDTO> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 
-    @DeleteMapping("/product/{productId}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
-        productService.deleteProduct(productId);
-        return ResponseEntity.ok("Product with ID " + productId + " has been deleted.");
-    }
-
-    @GetMapping(params = "categoryId")
-    public ResponseEntity<List<ProductDTO>> getProductsByCategory(@RequestParam("categoryId") Long categoryId) {
-        List<ProductDTO> products = productService.getProductsByCategory(categoryId);
+    @GetMapping("/product/category/{categoryId}")
+    public ResponseEntity<List<ProductCategoryDTO>> getProductsByCategory(@PathVariable Long categoryId) {
+        List<ProductCategoryDTO> products = productService.getAllProductsInCategory(categoryId);
         return ResponseEntity.ok(products);
     }
+
+    @DeleteMapping("/product/{Id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long Id) {
+        productService.deleteProduct(Id);
+        return ResponseEntity.ok("Product with ID " + Id + " has been deleted.");
+    }
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        Optional<ProductDTO> productOptional = Optional.ofNullable(productService.updateProduct(id,productDTO));
+        if (productOptional.isPresent()) {
+            return ResponseEntity.ok(productOptional.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

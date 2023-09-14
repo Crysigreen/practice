@@ -1,20 +1,16 @@
 package com.example.store.service.impl;
+import com.example.store.dtos.ProductCategoryDTO;
 import com.example.store.models.Category;
-import com.example.store.models.ProductCategory;
 import com.example.store.repositories.CategoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-import com.example.store.dtos.ClientDTO;
 import com.example.store.dtos.ProductDTO;
 import com.example.store.models.Product;
 import com.example.store.repositories.ProductRepository;
 import com.example.store.service.ProductService;
 import org.modelmapper.ModelMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,27 +28,19 @@ public class ProductServiceImpl implements ProductService<Integer> {
     public ProductDTO createProduct(ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
 
-        List<ProductCategory> productCategories = new ArrayList<>();
-        for (Integer categoryId : productDTO.getCategoryIds()) {  // Update the loop variable type to Integer
-            Category category = categoryRepository.findById(categoryId.longValue()).orElse(null);  // Convert the Integer to Long
-            if (category != null) {
-                ProductCategory productCategory = new ProductCategory();
-                productCategory.setProduct(product);
-                productCategory.setCategory(category);
-                productCategories.add(productCategory);
-            }
+        Optional<Category> categoryOptional = categoryRepository.findById(productDTO.getCategoryId());
+        if (categoryOptional.isPresent()) {
+            Category category = categoryOptional.get();
+            product.setCategory(category);
+            Product saveProduct = productRepository.save(product);
+
+            return modelMapper.map(saveProduct, ProductDTO.class);
+            
+        } else {
+            throw new EntityNotFoundException("Category not found"); // Обработка случая, если категория не найдена
         }
-        product.setCategories(productCategories);
-
-        product = productRepository.save(product);
-
-        ProductDTO createdProductDTO = new ProductDTO();
-        createdProductDTO.setId((long) product.getId());
-        createdProductDTO.setName(product.getName());
-        createdProductDTO.setCategoryIds(productDTO.getCategoryIds());
-
-        return createdProductDTO;
     }
     @Override
     public void deleteProduct(Long productId) {
@@ -64,15 +52,13 @@ public class ProductServiceImpl implements ProductService<Integer> {
         return productRepository.findAll().stream().map((s) -> modelMapper.map(s, ProductDTO.class)).collect(Collectors.toList());
     }
     @Override
-    public List<ProductDTO> getProductsByCategory(Long categoryId) {
-        Category category = categoryRepository.findById(categoryId).orElse(null);
-        if (category == null) {
-            throw new RuntimeException("Category not found");
-        }
-        List<Product> products = productRepository.findAllByCategories(category);
-        return products.stream()
-                .map(product -> modelMapper.map(product, ProductDTO.class))
+    public List<ProductCategoryDTO> getAllProductsInCategory(Long categoryId) {
+        List<Product> products = productRepository.findAllByCategoryId(categoryId);
+        List<ProductCategoryDTO> productDTOs = products.stream()
+                .map(product -> modelMapper.map(product, ProductCategoryDTO.class))
                 .collect(Collectors.toList());
+
+        return productDTOs;
     }
 
     @Override
@@ -81,6 +67,15 @@ public class ProductServiceImpl implements ProductService<Integer> {
         if (product.isPresent()) {
             Product existingProduct = product.get();
             existingProduct.setName(productDto.getName());
+            existingProduct.setPrice(productDto.getPrice());
+
+            Optional<Category> categoryOptional = categoryRepository.findById(productDto.getCategoryId());
+            if (categoryOptional.isPresent()){
+                Category category = categoryOptional.get();
+                existingProduct.setCategory(category);
+            }
+            //Product updateProduct = productRepository.save(existingProduct);
+
             return  modelMapper.map(productRepository.save(existingProduct),ProductDTO.class);
         }
         return null;

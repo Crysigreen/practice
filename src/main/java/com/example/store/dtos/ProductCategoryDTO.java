@@ -2,18 +2,22 @@ package com.example.store.dtos;
 
 public class ProductCategoryDTO {
     private Long id;
-    private ProductDTO productDTO;
-    private CategoryDTO categoryDTO;
+    private String name;
+    private Double price;
 
 
-    public ProductCategoryDTO(){
+    // Constructors, getters, and setters
 
+    public ProductCategoryDTO() {
     }
-    public ProductCategoryDTO(Long id, ProductDTO productDTO, CategoryDTO categoryDTO){
+
+    public ProductCategoryDTO(Long id, String name,Double price) {
         this.id = id;
-        this.productDTO = productDTO;
-        this.categoryDTO = categoryDTO;
+        this.name = name;
+        this.price = price;
     }
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -23,12 +27,20 @@ public class ProductCategoryDTO {
         this.id = id;
     }
 
-    public ProductDTO getProduct() { return productDTO; }
+    public String getName() {
+        return name;
+    }
 
-    public void setProduct(ProductDTO productDTO){this.productDTO = productDTO; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public CategoryDTO getCategory(){ return categoryDTO; }
+    public Double getPrice() {
+        return price;
+    }
 
-    public void setCategory(CategoryDTO categoryDTO){ this.categoryDTO = categoryDTO; }
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
 }

@@ -9,7 +9,7 @@ public abstract class BaseEntity {
     @Column(name = "id")
     protected int id;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

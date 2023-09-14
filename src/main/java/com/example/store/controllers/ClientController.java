@@ -5,12 +5,10 @@ import com.example.store.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ClientController {
@@ -30,7 +28,31 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
+    @GetMapping("/client/{id}")
+    public ResponseEntity<ClientDTO> getClientById(@PathVariable Long id) {
+        Optional<ClientDTO> client = clientService.findClient(id);
+        if (client.isPresent()) {
+            return ResponseEntity.ok(client.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
+    @PutMapping("/client/{id}")
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
+        Optional<ClientDTO> updatedClient = Optional.ofNullable(clientService.updateClient(id, clientDTO));
+        if (updatedClient.isPresent()) {
+            return ResponseEntity.ok(updatedClient.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/client/{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+        clientService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 
 }

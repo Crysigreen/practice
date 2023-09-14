@@ -1,30 +1,38 @@
 package com.example.store.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import com.example.store.models.Client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
 public class Product extends BaseEntity {
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "price")
     private Double price;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductCategory> productCategories;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonIgnore
+    private Category category;
 
     @OneToMany(mappedBy = "product")
-    private List<OrderProduct> orderProducts;
+    private Set<OrderProduct> orderProducts;
 
     public Product() {
     }
 
-    public Product(String name, Double price) {
+    public Product(String name, Double price, Category category, Set<OrderProduct> orderProducts) {
         this.name = name;
         this.price = price;
+        this.category = category;
+        this.orderProducts = orderProducts;
     }
 
     // Getters and Setters
@@ -40,18 +48,14 @@ public class Product extends BaseEntity {
     public void setPrice(Double price) {
         this.price = price;
     }
-    public List<ProductCategory> getCategories() {
-        return productCategories;
-    }
-    public void setCategories(List<ProductCategory> categories) {
-        this.productCategories = categories;
-    }
+    public Category getCategory(){ return category; }
+    public void setCategory(Category category) { this.category = category;}
 
-    public List<OrderProduct> getOrderProducts() {
+    public Set<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
 
-    public void setOrderProducts(List<OrderProduct> orderProducts) {
+    public void setOrderProducts(Set<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
     }
 }

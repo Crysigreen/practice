@@ -23,10 +23,6 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService<Integer> {
 
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
     private ClientRepository clientRepository;
 
     @Autowired

@@ -7,6 +7,7 @@ import java.util.List;
 public class ClientDTO {
     private Long id;
     private String name;
+    private String surname;
     private String email;
 
 
@@ -14,9 +15,10 @@ public class ClientDTO {
     public ClientDTO() {
     }
 
-    public ClientDTO(Long id, String name, String email, String role, OrderDTO order) {
+    public ClientDTO(Long id, String name, String surname, String email) {
         this.id = id;
         this.name = name;
+        this.surname = surname;
         this.email = email;
     }
 
@@ -37,6 +39,10 @@ public class ClientDTO {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getSurname() { return surname;}
+
+    public void setSurname(String surname) { this.surname = surname;}
 
     public String getEmail() {
         return email;
