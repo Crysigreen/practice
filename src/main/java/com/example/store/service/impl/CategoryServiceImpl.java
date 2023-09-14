@@ -24,15 +24,9 @@ public class CategoryServiceImpl implements CategoryService<Integer> {
     public List<CategoryDTO> getAllCategories() {
         return categoryRepository.findAll().stream().map((s) -> modelMapper.map(s, CategoryDTO.class)).collect(Collectors.toList());
     }
-
 //    @Override
-//    public CategoryDTO getCategoryById(Long categoryId) {
-//        Optional<Category> categoryOptional = categoryRepository.findById(categoryId);
-//        if (categoryOptional.isPresent()) {
-//            Category category = categoryOptional.get();
-//            return modelMapper.map(category, CategoryDTO.class);
-//        }
-//        return null;
+//    public List<Category> getAllCategoriesPurchasedByClient(Long clientId) {
+//        return categoryRepository.findAllCategoriesPurchasedByClient(clientId);
 //    }
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {

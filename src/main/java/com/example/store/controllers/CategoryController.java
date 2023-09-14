@@ -2,6 +2,7 @@ package com.example.store.controllers;
 
 import com.example.store.dtos.CategoryDTO;
 import com.example.store.dtos.ClientDTO;
+import com.example.store.models.Category;
 import com.example.store.service.CategoryService;
 import com.example.store.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;

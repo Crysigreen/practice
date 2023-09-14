@@ -103,13 +103,9 @@ public class OrderServiceImpl implements OrderService<Integer> {
 
     @Override
     public List<OrderDTO> getAllOrders() {
-        List<Order> orders = orderRepository.findAll(); // Получаем все заказы из базы данных
-
-
+        List<Order> orders = orderRepository.findAll();
         Type listType = new TypeToken<List<OrderDTO>>() {}.getType();
-
         List<OrderDTO> orderDTO = modelMapper.map(orders, listType);
-
         return orderDTO;
     }
 

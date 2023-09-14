@@ -1,6 +1,7 @@
 package com.example.store.service;
 
 import com.example.store.dtos.CategoryDTO;
+import com.example.store.models.Category;
 
 import java.util.List;
 

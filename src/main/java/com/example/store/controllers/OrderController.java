@@ -22,12 +22,6 @@ import java.util.Optional;
 public class OrderController {
 
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
-    private ClientService clientService;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
     private OrderService orderService;
 
 
@@ -48,7 +42,6 @@ public class OrderController {
         List<OrderDTO> orders = orderService.getOrdersForClient(Id);
         return ResponseEntity.ok(orders);
     }
-
 
     @PutMapping("/order/{id}")
     public ResponseEntity<OrderDTO> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {

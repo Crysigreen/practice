@@ -1,6 +1,7 @@
 package com.example.store.controllers;
 
 import com.example.store.dtos.ClientDTO;
+import com.example.store.models.Client;
 import com.example.store.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,12 @@ public class ClientController {
     @GetMapping("/client")
     public ResponseEntity<List<ClientDTO>> getAllClients() {
         List<ClientDTO> clients = clientService.getAllClients();
+        return ResponseEntity.ok(clients);
+    }
+
+    @GetMapping("/in-category/{categoryId}")
+    public ResponseEntity<List<Client>> getClientsWithOrdersInCategory(@PathVariable Long categoryId) {
+        List<Client> clients = clientService.getClientsWithOrdersInCategory(categoryId);
         return ResponseEntity.ok(clients);
     }
 

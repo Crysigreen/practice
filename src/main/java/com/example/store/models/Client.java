@@ -1,6 +1,7 @@
 package com.example.store.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
@@ -14,6 +15,7 @@ import java.util.Set;
 public class Client extends BaseEntity {
 
     @OneToMany(mappedBy = "client",targetEntity = Order.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Order> orders;
 
     @Column(name = "name")

@@ -35,6 +35,10 @@ public class ClientServiceImpl implements ClientService<Integer> {
         return modelMapper.map(client, ClientDTO.class);
     }
     @Override
+    public List<Client> getClientsWithOrdersInCategory(Long categoryId) {
+        return clientRepository.getClientsWithOrdersInCategory(categoryId);
+    }
+    @Override
     public Optional<ClientDTO> findClient(Long id) {
         return Optional.ofNullable(modelMapper.map(clientRepository.findById(id), ClientDTO.class));
     }
