@@ -30,6 +30,12 @@ public class CategoryController {
         return ResponseEntity.ok(category);
     }
 
+    @GetMapping("/category/client/{clientId}")
+    public ResponseEntity<List<CategoryDTO>> getCategoriesOrderedByClient(@PathVariable Long clientId) {
+        List<CategoryDTO> categories = categoryService.getCategoriesOrderedByClient(clientId);
+        return ResponseEntity.ok(categories);
+    }
+
     @PutMapping("/category/{id}")
     public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
         Optional<CategoryDTO> updatedCategory = Optional.ofNullable(categoryService.updateCategory(id, categoryDTO));

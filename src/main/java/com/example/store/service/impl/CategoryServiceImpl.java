@@ -24,10 +24,14 @@ public class CategoryServiceImpl implements CategoryService<Integer> {
     public List<CategoryDTO> getAllCategories() {
         return categoryRepository.findAll().stream().map((s) -> modelMapper.map(s, CategoryDTO.class)).collect(Collectors.toList());
     }
-//    @Override
-//    public List<Category> getAllCategoriesPurchasedByClient(Long clientId) {
-//        return categoryRepository.findAllCategoriesPurchasedByClient(clientId);
-//    }
+
+    @Override
+    public List<CategoryDTO> getCategoriesOrderedByClient(Long clientId) {
+        List<Category> categories = categoryRepository.getCategoriesOrderedByClient(clientId);
+        return categories.stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
+    }
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         Category category = modelMapper.map(categoryDTO, Category.class);

@@ -44,6 +44,11 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/ordered-by-client/{clientId}")
+    public ResponseEntity<List<ProductDTO>> getProductsOrderedByClient(@PathVariable Long clientId) {
+        return ResponseEntity.ok(productService.findProductsOrderedByClient(clientId));
+    }
+
     @GetMapping("/product/category/{categoryId}")
     public ResponseEntity<List<ProductCategoryDTO>> getProductsByCategory(@PathVariable Long categoryId) {
         List<ProductCategoryDTO> products = productService.getAllProductsInCategory(categoryId);

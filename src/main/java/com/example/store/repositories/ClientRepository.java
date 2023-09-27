@@ -17,4 +17,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             "WHERE p.category.id = :categoryId")
     List<Client> getClientsWithOrdersInCategory(@Param("categoryId") Long categoryId);
 
+
+
 }

@@ -62,6 +62,15 @@ public class ProductServiceImpl implements ProductService<Integer> {
     }
 
     @Override
+    public List<ProductDTO> findProductsOrderedByClient(Long clientId) {
+
+        List<Product> products = productRepository.findProductsOrderedByClient(clientId);
+        return products.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public ProductDTO updateProduct(Long id, ProductDTO productDto) {
         Optional<Product> product = productRepository.findById(id);
         if (product.isPresent()) {
